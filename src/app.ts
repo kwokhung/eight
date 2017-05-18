@@ -14,7 +14,7 @@ client.on("connect", (connack) => {
         console.log(JSON.stringify(err));
         console.log(JSON.stringify(granted));
 
-        if ((typeof err === 'undefined' || err === null) && granted.some(value => value.topic === "eight/#" && value.qos !== 128)) {
+        if ((typeof err === "undefined" || err === null) && granted.some(value => value.topic === "eight/#" && value.qos !== 128)) {
             client.on("message", (topic, message, packet) => {
                 console.log("on message");
                 console.log(JSON.stringify(topic));
