@@ -1,0 +1,27 @@
+{
+  "name": "eight",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwokhung/eight.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kwokhung/eight/issues"
+  },
+  "homepage": "https://github.com/kwokhung/eight#readme",
+  "devDependencies": {
+    "@types/mqtt": "0.0.34",
+    "@types/node": "^7.0.18"
+  },
+  "dependencies": {
+    "mqtt": "^2.7.2"
+  }
+}
