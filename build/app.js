@@ -19,6 +19,19 @@ client.on("connect", function (connack) {
                 console.log(JSON.stringify(message));
                 console.log(JSON.stringify(packet));
                 console.log(topic + ": " + message.toString());
+                switch (topic) {
+                    case "eight/i.am":
+                        var data = {
+                            who: "eight",
+                            what: "body",
+                            when: new Date().yyyyMMddHHmmss()
+                        };
+                        client.publish("eight/i.am", JSON.stringify(data), function (err) {
+                            console.log("publish");
+                            console.log(JSON.stringify(err));
+                        });
+                        break;
+                }
             });
         }
     });
