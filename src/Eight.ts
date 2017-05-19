@@ -1,22 +1,33 @@
 import * as mqtt from "mqtt";
 
-export default class Eight {
-    static iAm(client: mqtt.Client, jsonMessage: any) {
-        let data: any = {
-            who: jsonMessage.whoAmI,
+export interface IAmParameter {
+    who: string;
+    whoAmI: string;
+    when: string;
+}
+
+export interface YouAreParameter {
+    who: string;
+    when: string;
+}
+
+export class Eight {
+    static iAm(client: mqtt.Client, iAm: IAmParameter) {
+        let youAre: YouAreParameter = {
+            who: iAm.whoAmI,
             when: new Date().yyyyMMddHHmmss()
         };
 
-        console.log(jsonMessage.whoAmI + "/you.are" + " => " + JSON.stringify(data));
+        console.log(iAm.whoAmI + "/you.are" + " => " + JSON.stringify(youAre));
 
-        client.publish(jsonMessage.whoAmI + "/you.are", JSON.stringify(data), (err) => {
+        client.publish(iAm.whoAmI + "/you.are", JSON.stringify(youAre), (err) => {
             //console.log("publish");
             //console.log(JSON.stringify(err));
         });
 
-        console.log("fromEight/he.is" + " => " + JSON.stringify(data));
+        console.log("fromEight/he.is" + " => " + JSON.stringify(youAre));
 
-        client.publish("fromEight/he.is", JSON.stringify(data), (err) => {
+        client.publish("fromEight/he.is", JSON.stringify(youAre), (err) => {
             //console.log("publish");
             //console.log(JSON.stringify(err));
         });

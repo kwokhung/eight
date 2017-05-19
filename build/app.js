@@ -38,7 +38,7 @@ client.on("connect", function (connack) {
                 var jsonMessage = JSON.parse(message.toString());
                 switch (topic) {
                     case "toEight/i.am":
-                        Eight_1.default.iAm(client, jsonMessage);
+                        Eight_1.Eight.iAm(client, jsonMessage);
                         break;
                 }
             });
