@@ -1,35 +1,41 @@
 import * as mqtt from "mqtt";
 
-export interface IAmParameter {
-    who: string;
-    whoAmI: string;
-    when: string;
-}
+export namespace Eight {
+    export namespace Inbound {
+        export interface IAmParameter {
+            who: string;
+            whoAmI: string;
+            when: string;
+        }
+    }
 
-export interface YouAreParameter {
-    who: string;
-    when: string;
-}
+    export namespace Outbound {
+        export interface YouAreParameter {
+            who: string;
+            when: string;
+        }
+    }
 
-export class Eight {
-    static iAm(client: mqtt.Client, iAm: IAmParameter) {
-        let youAre: YouAreParameter = {
-            who: iAm.whoAmI,
-            when: new Date().yyyyMMddHHmmss()
-        };
+    export class Inbound {
+        static iAm(client: mqtt.Client, iAm: Inbound.IAmParameter) {
+            let youAre: Outbound.YouAreParameter = {
+                who: iAm.whoAmI,
+                when: new Date().yyyyMMddHHmmss()
+            };
 
-        console.log(iAm.whoAmI + "/you.are" + " => " + JSON.stringify(youAre));
+            console.log(iAm.whoAmI + "/you.are" + " => " + JSON.stringify(youAre));
 
-        client.publish(iAm.whoAmI + "/you.are", JSON.stringify(youAre), (err) => {
-            //console.log("publish");
-            //console.log(JSON.stringify(err));
-        });
+            client.publish(iAm.whoAmI + "/you.are", JSON.stringify(youAre), (err) => {
+                //console.log("publish");
+                //console.log(JSON.stringify(err));
+            });
 
-        console.log("fromEight/he.is" + " => " + JSON.stringify(youAre));
+            console.log("fromEight/he.is" + " => " + JSON.stringify(youAre));
 
-        client.publish("fromEight/he.is", JSON.stringify(youAre), (err) => {
-            //console.log("publish");
-            //console.log(JSON.stringify(err));
-        });
+            client.publish("fromEight/he.is", JSON.stringify(youAre), (err) => {
+                //console.log("publish");
+                //console.log(JSON.stringify(err));
+            });
+        }
     }
 }

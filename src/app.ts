@@ -22,7 +22,7 @@ Date.prototype.yyyyMMddHHmmss = function () {
 };
 
 import * as mqtt from "mqtt";
-import { IAmParameter, Eight } from "./Eight";
+import { Eight } from "./Eight";
 
 let client = mqtt.connect("wss://mbltest01.mqtt.iot.gz.baidubce.com:8884/mqtt", {
     username: "mbltest01/eight",
@@ -47,11 +47,11 @@ client.on("connect", (connack) => {
 
                 console.log(topic + " <= " + message.toString());
 
-                let jsonMessage: IAmParameter = JSON.parse(message.toString());
+                let jsonMessage: Eight.Inbound.IAmParameter = JSON.parse(message.toString());
 
                 switch (topic) {
                     case "toEight/i.am":
-                        Eight.iAm(client, jsonMessage);
+                        Eight.Inbound.iAm(client, jsonMessage);
 
                         break;
                 }
