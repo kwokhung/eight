@@ -55,7 +55,7 @@ client.on("connect", (connack) => {
                             when: new Date().yyyyMMddHHmmss()
                         };
 
-                        client.publish("body/you.are", JSON.stringify(data), (err) => {
+                        client.publish(jsonMessage.whoAmI + "/you.are", JSON.stringify(data), (err) => {
                             console.log("publish");
                             console.log(JSON.stringify(err));
                         });
