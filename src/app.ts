@@ -32,6 +32,11 @@ client.on("connect", (connack) => {
                         Eight.Inbound.iAm(client, jsonMessage);
 
                         break;
+
+                    case "toEight/i.am.noMore":
+                        Eight.Inbound.iAmNoMore(client, jsonMessage);
+
+                        break;
                 }
             });
         }

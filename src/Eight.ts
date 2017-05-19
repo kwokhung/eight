@@ -7,11 +7,71 @@ export namespace Eight {
             whoAmI: string;
             when: string;
         }
+
+        export interface IAmNoMoreParameter {
+            who: string;
+            whoAmI: string;
+            when: string;
+        }
+
+        export interface HeartbeatParameter {
+            who: string;
+            when: string;
+        }
+
+        export interface TellOtherParameter {
+            who: string;
+            what: any;
+            when: string;
+        }
+
+        export interface TellSomeoneParameter {
+            who: string;
+            whom: string;
+            what: any;
+            when: string;
+        }
+
+        export interface WhoAreThereParameter {
+            who: string;
+            when: string;
+        }
     }
 
     export namespace Outbound {
+        export interface HeIsParameter {
+            who: string;
+            when: string;
+        }
+
+        export interface HeIsNoMoreParameter {
+            who: string;
+            when: string;
+        }
+
         export interface YouAreParameter {
             who: string;
+            when: string;
+        }
+
+        export interface YouAreNoMoreParameter {
+            who: string;
+            when: string;
+        }
+
+        export interface SomeoneBeatParameter {
+            who: string;
+            when: string;
+        }
+
+        export interface SomeoneSaidParameter {
+            who: string;
+            what: any;
+            when: string;
+        }
+
+        export interface ThereAreParameter {
+            who: string[];
             when: string;
         }
     }
@@ -30,9 +90,40 @@ export namespace Eight {
                 //console.log(JSON.stringify(err));
             });
 
-            console.log("fromEight/he.is" + " => " + JSON.stringify(youAre));
+            let heIs: Outbound.HeIsParameter = {
+                who: iAm.whoAmI,
+                when: new Date().yyyyMMddHHmmss()
+            };
 
-            client.publish("fromEight/he.is", JSON.stringify(youAre), (err) => {
+            console.log("fromEight/he.is" + " => " + JSON.stringify(heIs));
+
+            client.publish("fromEight/he.is", JSON.stringify(heIs), (err) => {
+                //console.log("publish");
+                //console.log(JSON.stringify(err));
+            });
+        }
+
+        static iAmNoMore(client: mqtt.Client, iAmNoMore: Inbound.IAmNoMoreParameter) {
+            let youAreNoMore: Outbound.YouAreNoMoreParameter = {
+                who: iAmNoMore.whoAmI,
+                when: new Date().yyyyMMddHHmmss()
+            };
+
+            console.log(iAmNoMore.whoAmI + "/you.are" + " => " + JSON.stringify(youAreNoMore));
+
+            client.publish(iAmNoMore.whoAmI + "/you.are", JSON.stringify(youAreNoMore), (err) => {
+                //console.log("publish");
+                //console.log(JSON.stringify(err));
+            });
+
+            let HeIsNoMore: Outbound.HeIsNoMoreParameter = {
+                who: iAmNoMore.whoAmI,
+                when: new Date().yyyyMMddHHmmss()
+            };
+
+            console.log("fromEight/he.is" + " => " + JSON.stringify(HeIsNoMore));
+
+            client.publish("fromEight/he.is", JSON.stringify(HeIsNoMore), (err) => {
                 //console.log("publish");
                 //console.log(JSON.stringify(err));
             });

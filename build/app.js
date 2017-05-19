@@ -26,6 +26,9 @@ client.on("connect", function (connack) {
                     case "toEight/i.am":
                         Eight_1.Eight.Inbound.iAm(client, jsonMessage);
                         break;
+                    case "toEight/i.am.noMore":
+                        Eight_1.Eight.Inbound.iAmNoMore(client, jsonMessage);
+                        break;
                 }
             });
         }
