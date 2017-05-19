@@ -16,6 +16,7 @@ Date.prototype.yyyyMMddHHmmss = function () {
         (ss < 10 ? "0" + ss : ss);
 };
 var mqtt = require("mqtt");
+var Eight_1 = require("./Eight");
 var client = mqtt.connect("wss://mbltest01.mqtt.iot.gz.baidubce.com:8884/mqtt", {
     username: "mbltest01/eight",
     password: "JWFcQYcFXxIbghm+8JEvqRfPf9fN7Ah3NeZupc6Zgqw="
@@ -37,20 +38,7 @@ client.on("connect", function (connack) {
                 var jsonMessage = JSON.parse(message.toString());
                 switch (topic) {
                     case "toEight/i.am":
-                        var data = {
-                            who: jsonMessage.whoAmI,
-                            when: new Date().yyyyMMddHHmmss()
-                        };
-                        console.log(jsonMessage.whoAmI + "/you.are" + " => " + JSON.stringify(data));
-                        client.publish(jsonMessage.whoAmI + "/you.are", JSON.stringify(data), function (err) {
-                            //console.log("publish");
-                            //console.log(JSON.stringify(err));
-                        });
-                        console.log("fromEight/he.is" + " => " + JSON.stringify(data));
-                        client.publish("fromEight/he.is", JSON.stringify(data), function (err) {
-                            //console.log("publish");
-                            //console.log(JSON.stringify(err));
-                        });
+                        Eight_1.default.iAm(client, jsonMessage);
                         break;
                 }
             });
