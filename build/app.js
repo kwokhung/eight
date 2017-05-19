@@ -33,7 +33,7 @@ client.on("connect", function (connack) {
                 //console.log(JSON.stringify(topic));
                 //console.log(JSON.stringify(message));
                 //console.log(JSON.stringify(packet));
-                console.log(topic + ": " + message.toString());
+                console.log(topic + " <= " + message.toString());
                 var jsonMessage = JSON.parse(message.toString());
                 switch (topic) {
                     case "toEight/i.am":
@@ -41,12 +41,12 @@ client.on("connect", function (connack) {
                             who: jsonMessage.whoAmI,
                             when: new Date().yyyyMMddHHmmss()
                         };
-                        console.log(jsonMessage.whoAmI + "/you.are" + ": " + JSON.stringify(data));
+                        console.log(jsonMessage.whoAmI + "/you.are" + " => " + JSON.stringify(data));
                         client.publish(jsonMessage.whoAmI + "/you.are", JSON.stringify(data), function (err) {
                             //console.log("publish");
                             //console.log(JSON.stringify(err));
                         });
-                        console.log("fromEight/he.is" + ": " + JSON.stringify(data));
+                        console.log("fromEight/he.is" + " => " + JSON.stringify(data));
                         client.publish("fromEight/he.is", JSON.stringify(data), function (err) {
                             //console.log("publish");
                             //console.log(JSON.stringify(err));
