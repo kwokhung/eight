@@ -3,7 +3,13 @@ import * as mqtt from "mqtt";
 import * as Datastore from "nedb";
 import { Eight } from "./Eight";
 
-export var db: Datastore = new Datastore();
+var db: Datastore = new Datastore();
+
+db.ensureIndex({ fieldName: "who", unique: true }, function (err) {
+    console.log("err" + " => " + JSON.stringify(err));
+});
+
+export { db };
 
 let client = mqtt.connect("wss://mbltest01.mqtt.iot.gz.baidubce.com:8884/mqtt", {
     username: "mbltest01/eight",
@@ -51,13 +57,13 @@ client.on("connect", (connack) => {
 
                         break;
 
-                    case "toEight/iAmNoMore":
-                        Eight.Inbound.iAmNoMore(client, jsonMessage);
+                    case "toEight/tellSomeone":
+                        Eight.Inbound.tellSomeone(client, jsonMessage);
 
                         break;
 
-                    case "toEight/iAmNoMore":
-                        Eight.Inbound.iAmNoMore(client, jsonMessage);
+                    case "toEight/whoAreThere":
+                        Eight.Inbound.whoAreThere(client, jsonMessage);
 
                         break;
                 }

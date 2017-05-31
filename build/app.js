@@ -4,7 +4,11 @@ require("./extend");
 var mqtt = require("mqtt");
 var Datastore = require("nedb");
 var Eight_1 = require("./Eight");
-exports.db = new Datastore();
+var db = new Datastore();
+exports.db = db;
+db.ensureIndex({ fieldName: "who", unique: true }, function (err) {
+    console.log("err" + " => " + JSON.stringify(err));
+});
 var client = mqtt.connect("wss://mbltest01.mqtt.iot.gz.baidubce.com:8884/mqtt", {
     username: "mbltest01/eight",
     password: "JWFcQYcFXxIbghm+8JEvqRfPf9fN7Ah3NeZupc6Zgqw="
@@ -37,11 +41,11 @@ client.on("connect", function (connack) {
                     case "toEight/tellOther":
                         Eight_1.Eight.Inbound.tellOther(client, jsonMessage);
                         break;
-                    case "toEight/iAmNoMore":
-                        Eight_1.Eight.Inbound.iAmNoMore(client, jsonMessage);
+                    case "toEight/tellSomeone":
+                        Eight_1.Eight.Inbound.tellSomeone(client, jsonMessage);
                         break;
-                    case "toEight/iAmNoMore":
-                        Eight_1.Eight.Inbound.iAmNoMore(client, jsonMessage);
+                    case "toEight/whoAreThere":
+                        Eight_1.Eight.Inbound.whoAreThere(client, jsonMessage);
                         break;
                 }
             });

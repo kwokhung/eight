@@ -6,10 +6,6 @@ import { EightInterface } from "./EightInterface";
 export namespace Eight {
     export class Inbound {
         static iAm(client: mqtt.Client, iAm: EightInterface.Inbound.IAmParameter) {
-            db.ensureIndex({ fieldName: "who", unique: true }, function (err) {
-                console.log("err" + " => " + JSON.stringify(err));
-            });
-
             db.insert({
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
@@ -115,6 +111,11 @@ export namespace Eight {
 
         static whoAreThere(client: mqtt.Client, whoAreThere: EightInterface.Inbound.WhoAreThereParameter) {
             let who: string[] = [];
+
+            db.find({}, function (err, docs) {
+                console.log("err" + " => " + JSON.stringify(err));
+                console.log("docs" + " => " + JSON.stringify(docs));
+            });
 
             for (let item in ["a", "b", "c"]) {
                 who.push(item);

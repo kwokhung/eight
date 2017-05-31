@@ -7,9 +7,6 @@ var Eight;
         function Inbound() {
         }
         Inbound.iAm = function (client, iAm) {
-            app_1.db.ensureIndex({ fieldName: "who", unique: true }, function (err) {
-                console.log("err" + " => " + JSON.stringify(err));
-            });
             app_1.db.insert({
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
@@ -93,6 +90,10 @@ var Eight;
         };
         Inbound.whoAreThere = function (client, whoAreThere) {
             var who = [];
+            app_1.db.find({}, function (err, docs) {
+                console.log("err" + " => " + JSON.stringify(err));
+                console.log("docs" + " => " + JSON.stringify(docs));
+            });
             for (var item in ["a", "b", "c"]) {
                 who.push(item);
             }
