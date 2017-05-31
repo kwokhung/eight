@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./extend");
 var mqtt = require("mqtt");
+var Datastore = require("nedb");
 var Eight_1 = require("./Eight");
+exports.db = new Datastore();
 var client = mqtt.connect("wss://mbltest01.mqtt.iot.gz.baidubce.com:8884/mqtt", {
     username: "mbltest01/eight",
     password: "JWFcQYcFXxIbghm+8JEvqRfPf9fN7Ah3NeZupc6Zgqw="

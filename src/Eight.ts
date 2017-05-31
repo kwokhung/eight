@@ -1,9 +1,23 @@
 import * as mqtt from "mqtt";
+import * as Datastore from "nedb";
+import { db } from './app';
 import { EightInterface } from "./EightInterface";
 
 export namespace Eight {
     export class Inbound {
         static iAm(client: mqtt.Client, iAm: EightInterface.Inbound.IAmParameter) {
+            db.ensureIndex({ fieldName: "who", unique: true }, function (err) {
+                console.log("err" + " => " + JSON.stringify(err));
+            });
+
+            db.insert({
+                who: iAm.whoAmI,
+                when: new Date().yyyyMMddHHmmss()
+            }, function (err, newDocs) {
+                console.log("err" + " => " + JSON.stringify(err));
+                console.log("newDocs" + " => " + JSON.stringify(newDocs));
+            });
+
             let heIs: EightInterface.Outbound.HeIsParameter = {
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()

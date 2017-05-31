@@ -1,6 +1,9 @@
 import "./extend";
 import * as mqtt from "mqtt";
+import * as Datastore from "nedb";
 import { Eight } from "./Eight";
+
+export var db: Datastore = new Datastore();
 
 let client = mqtt.connect("wss://mbltest01.mqtt.iot.gz.baidubce.com:8884/mqtt", {
     username: "mbltest01/eight",

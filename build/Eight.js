@@ -1,11 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var app_1 = require("./app");
 var Eight;
 (function (Eight) {
     var Inbound = (function () {
         function Inbound() {
         }
         Inbound.iAm = function (client, iAm) {
+            app_1.db.ensureIndex({ fieldName: "who", unique: true }, function (err) {
+                console.log("err" + " => " + JSON.stringify(err));
+            });
+            app_1.db.insert({
+                who: iAm.whoAmI,
+                when: new Date().yyyyMMddHHmmss()
+            }, function (err, newDocs) {
+                console.log("err" + " => " + JSON.stringify(err));
+                console.log("newDocs" + " => " + JSON.stringify(newDocs));
+            });
             var heIs = {
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
