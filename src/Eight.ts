@@ -1,84 +1,10 @@
 import * as mqtt from "mqtt";
+import { EightInterface } from "./EightInterface";
 
 export namespace Eight {
-    export namespace Inbound {
-        export interface IAmParameter {
-            who: string;
-            whoAmI: string;
-            when: string;
-        }
-
-        export interface IAmNoMoreParameter {
-            who: string;
-            whoAmI: string;
-            when: string;
-        }
-
-        export interface HeartbeatParameter {
-            who: string;
-            when: string;
-        }
-
-        export interface TellOtherParameter {
-            who: string;
-            what: any;
-            when: string;
-        }
-
-        export interface TellSomeoneParameter {
-            who: string;
-            whom: string;
-            what: any;
-            when: string;
-        }
-
-        export interface WhoAreThereParameter {
-            who: string;
-            when: string;
-        }
-    }
-
-    export namespace Outbound {
-        export interface HeIsParameter {
-            who: string;
-            when: string;
-        }
-
-        export interface HeIsNoMoreParameter {
-            who: string;
-            when: string;
-        }
-
-        export interface YouAreParameter {
-            who: string;
-            when: string;
-        }
-
-        export interface YouAreNoMoreParameter {
-            who: string;
-            when: string;
-        }
-
-        export interface SomeoneBeatParameter {
-            who: string;
-            when: string;
-        }
-
-        export interface SomeoneSaidParameter {
-            who: string;
-            what: any;
-            when: string;
-        }
-
-        export interface ThereAreParameter {
-            who: string[];
-            when: string;
-        }
-    }
-
     export class Inbound {
-        static iAm(client: mqtt.Client, iAm: Inbound.IAmParameter) {
-            let heIs: Outbound.HeIsParameter = {
+        static iAm(client: mqtt.Client, iAm: EightInterface.Inbound.IAmParameter) {
+            let heIs: EightInterface.Outbound.HeIsParameter = {
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
             };
@@ -90,7 +16,7 @@ export namespace Eight {
                 //console.log(JSON.stringify(err));
             });
 
-            let youAre: Outbound.YouAreParameter = {
+            let youAre: EightInterface.Outbound.YouAreParameter = {
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
             };
@@ -103,8 +29,8 @@ export namespace Eight {
             });
         }
 
-        static iAmNoMore(client: mqtt.Client, iAmNoMore: Inbound.IAmNoMoreParameter) {
-            let heIsNoMore: Outbound.HeIsNoMoreParameter = {
+        static iAmNoMore(client: mqtt.Client, iAmNoMore: EightInterface.Inbound.IAmNoMoreParameter) {
+            let heIsNoMore: EightInterface.Outbound.HeIsNoMoreParameter = {
                 who: iAmNoMore.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
             };
@@ -116,7 +42,7 @@ export namespace Eight {
                 //console.log(JSON.stringify(err));
             });
 
-            let youAreNoMore: Outbound.YouAreNoMoreParameter = {
+            let youAreNoMore: EightInterface.Outbound.YouAreNoMoreParameter = {
                 who: iAmNoMore.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
             };
@@ -129,8 +55,8 @@ export namespace Eight {
             });
         }
 
-        static heartbeat(client: mqtt.Client, heartbeat: Inbound.HeartbeatParameter) {
-            let someoneBeat: Outbound.SomeoneBeatParameter = {
+        static heartbeat(client: mqtt.Client, heartbeat: EightInterface.Inbound.HeartbeatParameter) {
+            let someoneBeat: EightInterface.Outbound.SomeoneBeatParameter = {
                 who: heartbeat.who,
                 when: new Date().yyyyMMddHHmmss()
             };
@@ -143,8 +69,8 @@ export namespace Eight {
             });
         }
 
-        static tellOther(client: mqtt.Client, tellOther: Inbound.TellOtherParameter) {
-            let someoneSaid: Outbound.SomeoneSaidParameter = {
+        static tellOther(client: mqtt.Client, tellOther: EightInterface.Inbound.TellOtherParameter) {
+            let someoneSaid: EightInterface.Outbound.SomeoneSaidParameter = {
                 who: tellOther.who,
                 what: tellOther.what,
                 when: new Date().yyyyMMddHHmmss()
@@ -158,8 +84,8 @@ export namespace Eight {
             });
         }
 
-        static tellSomeone(client: mqtt.Client, tellSomeone: Inbound.TellSomeoneParameter) {
-            let someoneSaid: Outbound.SomeoneSaidParameter = {
+        static tellSomeone(client: mqtt.Client, tellSomeone: EightInterface.Inbound.TellSomeoneParameter) {
+            let someoneSaid: EightInterface.Outbound.SomeoneSaidParameter = {
                 who: tellSomeone.who,
                 what: tellSomeone.what,
                 when: new Date().yyyyMMddHHmmss()
@@ -173,14 +99,14 @@ export namespace Eight {
             });
         }
 
-        static whoAreThere(client: mqtt.Client, whoAreThere: Inbound.WhoAreThereParameter) {
+        static whoAreThere(client: mqtt.Client, whoAreThere: EightInterface.Inbound.WhoAreThereParameter) {
             let who: string[] = [];
 
             for (let item in ["a", "b", "c"]) {
                 who.push(item);
             }
 
-            let thereAre: Outbound.ThereAreParameter = {
+            let thereAre: EightInterface.Outbound.ThereAreParameter = {
                 who: who,
                 when: new Date().yyyyMMddHHmmss()
             };
