@@ -25,15 +25,35 @@ client.on("connect", (connack) => {
 
                 console.log(topic + " <= " + message.toString());
 
-                let jsonMessage: Eight.Inbound.IAmParameter = JSON.parse(message.toString());
+                let jsonMessage: any = JSON.parse(message.toString());
 
                 switch (topic) {
-                    case "toEight/i.am":
+                    case "toEight/iAm":
                         Eight.Inbound.iAm(client, jsonMessage);
 
                         break;
 
-                    case "toEight/i.am.noMore":
+                    case "toEight/iAmNoMore":
+                        Eight.Inbound.iAmNoMore(client, jsonMessage);
+
+                        break;
+
+                    case "toEight/heartbeat":
+                        Eight.Inbound.heartbeat(client, jsonMessage);
+
+                        break;
+
+                    case "toEight/tellOther":
+                        Eight.Inbound.tellOther(client, jsonMessage);
+
+                        break;
+
+                    case "toEight/iAmNoMore":
+                        Eight.Inbound.iAmNoMore(client, jsonMessage);
+
+                        break;
+
+                    case "toEight/iAmNoMore":
                         Eight.Inbound.iAmNoMore(client, jsonMessage);
 
                         break;
