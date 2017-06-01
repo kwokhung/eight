@@ -135,9 +135,9 @@ export namespace Eight {
                 when: new Date().yyyyMMddHHmmss()
             };
 
-            console.log(tellSomeone.who + "/someoneSaid" + " => " + JSON.stringify(someoneSaid));
+            console.log(tellSomeone.whom + "/someoneSaid" + " => " + JSON.stringify(someoneSaid));
 
-            client.publish(tellSomeone.who + "/someoneSaid", JSON.stringify(someoneSaid), (err) => {
+            client.publish(tellSomeone.whom + "/someoneSaid", JSON.stringify(someoneSaid), (err) => {
                 //console.log("publish");
                 //console.log(JSON.stringify(err));
             });

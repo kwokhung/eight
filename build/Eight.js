@@ -113,8 +113,8 @@ var Eight;
                 what: tellSomeone.what,
                 when: new Date().yyyyMMddHHmmss()
             };
-            console.log(tellSomeone.who + "/someoneSaid" + " => " + JSON.stringify(someoneSaid));
-            client.publish(tellSomeone.who + "/someoneSaid", JSON.stringify(someoneSaid), function (err) {
+            console.log(tellSomeone.whom + "/someoneSaid" + " => " + JSON.stringify(someoneSaid));
+            client.publish(tellSomeone.whom + "/someoneSaid", JSON.stringify(someoneSaid), function (err) {
                 //console.log("publish");
                 //console.log(JSON.stringify(err));
             });
