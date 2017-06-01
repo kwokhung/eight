@@ -9,74 +9,108 @@ export namespace Eight {
             db.insert({
                 who: iAm.whoAmI,
                 when: new Date().yyyyMMddHHmmss()
-            }, function (err, newDocs) {
+            }, (err, newDocs) => {
                 console.log("err" + " => " + JSON.stringify(err));
                 console.log("newDocs" + " => " + JSON.stringify(newDocs));
-            });
 
-            let heIs: EightInterface.Outbound.HeIsParameter = {
-                who: iAm.whoAmI,
-                when: new Date().yyyyMMddHHmmss()
-            };
+                if (err === null) {
+                    let heIs: EightInterface.Outbound.HeIsParameter = {
+                        who: iAm.whoAmI,
+                        when: new Date().yyyyMMddHHmmss()
+                    };
 
-            console.log("fromEight/heIs" + " => " + JSON.stringify(heIs));
+                    console.log("fromEight/heIs" + " => " + JSON.stringify(heIs));
 
-            client.publish("fromEight/heIs", JSON.stringify(heIs), (err) => {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
-            });
+                    client.publish("fromEight/heIs", JSON.stringify(heIs), (err) => {
+                        //console.log("publish");
+                        //console.log(JSON.stringify(err));
+                    });
 
-            let youAre: EightInterface.Outbound.YouAreParameter = {
-                who: iAm.whoAmI,
-                when: new Date().yyyyMMddHHmmss()
-            };
+                    let youAre: EightInterface.Outbound.YouAreParameter = {
+                        who: iAm.whoAmI,
+                        when: new Date().yyyyMMddHHmmss()
+                    };
 
-            console.log(iAm.whoAmI + "/youAre" + " => " + JSON.stringify(youAre));
+                    console.log(iAm.whoAmI + "/youAre" + " => " + JSON.stringify(youAre));
 
-            client.publish(iAm.whoAmI + "/youAre", JSON.stringify(youAre), (err) => {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
+                    client.publish(iAm.whoAmI + "/youAre", JSON.stringify(youAre), (err) => {
+                        //console.log("publish");
+                        //console.log(JSON.stringify(err));
+                    });
+                }
             });
         }
 
         static iAmNoMore(client: mqtt.Client, iAmNoMore: EightInterface.Inbound.IAmNoMoreParameter) {
-            let heIsNoMore: EightInterface.Outbound.HeIsNoMoreParameter = {
-                who: iAmNoMore.whoAmI,
-                when: new Date().yyyyMMddHHmmss()
-            };
+            db.remove({
+                who: iAmNoMore.whoAmI
+            }, { multi: true }, (err, numRemoved) => {
+                console.log("err" + " => " + JSON.stringify(err));
+                console.log("numRemoved" + " => " + JSON.stringify(numRemoved));
 
-            console.log("fromEight/heIs" + " => " + JSON.stringify(heIsNoMore));
+                if (err === null) {
+                    let heIsNoMore: EightInterface.Outbound.HeIsNoMoreParameter = {
+                        who: iAmNoMore.whoAmI,
+                        when: new Date().yyyyMMddHHmmss()
+                    };
 
-            client.publish("fromEight/heIs", JSON.stringify(heIsNoMore), (err) => {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
-            });
+                    console.log("fromEight/heIsNoMore" + " => " + JSON.stringify(heIsNoMore));
 
-            let youAreNoMore: EightInterface.Outbound.YouAreNoMoreParameter = {
-                who: iAmNoMore.whoAmI,
-                when: new Date().yyyyMMddHHmmss()
-            };
+                    client.publish("fromEight/heIsNoMore", JSON.stringify(heIsNoMore), (err) => {
+                        //console.log("publish");
+                        //console.log(JSON.stringify(err));
+                    });
 
-            console.log(iAmNoMore.whoAmI + "/youAre" + " => " + JSON.stringify(youAreNoMore));
+                    let youAreNoMore: EightInterface.Outbound.YouAreNoMoreParameter = {
+                        who: iAmNoMore.whoAmI,
+                        when: new Date().yyyyMMddHHmmss()
+                    };
 
-            client.publish(iAmNoMore.whoAmI + "/youAre", JSON.stringify(youAreNoMore), (err) => {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
+                    console.log(iAmNoMore.whoAmI + "/youAreNoMore" + " => " + JSON.stringify(youAreNoMore));
+
+                    client.publish(iAmNoMore.whoAmI + "/youAreNoMore", JSON.stringify(youAreNoMore), (err) => {
+                        //console.log("publish");
+                        //console.log(JSON.stringify(err));
+                    });
+                }
             });
         }
 
         static heartbeat(client: mqtt.Client, heartbeat: EightInterface.Inbound.HeartbeatParameter) {
-            let someoneBeat: EightInterface.Outbound.SomeoneBeatParameter = {
-                who: heartbeat.who,
-                when: new Date().yyyyMMddHHmmss()
-            };
+            db.update({
+                who: heartbeat.who
+            }, {
+                    $set: {
+                        when: new Date().yyyyMMddHHmmss()
+                    }
+                }, { multi: true }, (err, numReplaced) => {
+                    console.log("err" + " => " + JSON.stringify(err));
+                    console.log("numReplaced" + " => " + JSON.stringify(numReplaced));
 
-            console.log("fromEight/someoneBeat" + " => " + JSON.stringify(someoneBeat));
+                    if (err === null) {
+                        if (numReplaced === 0) {
+                            db.insert({
+                                who: heartbeat.who,
+                                when: new Date().yyyyMMddHHmmss()
+                            }, (err, newDocs) => {
+                                console.log("err" + " => " + JSON.stringify(err));
+                                console.log("newDocs" + " => " + JSON.stringify(newDocs));
+                            });
+                        }
 
-            client.publish("fromEight/someoneBeat", JSON.stringify(someoneBeat), (err) => {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
-            });
+                        let someoneBeat: EightInterface.Outbound.SomeoneBeatParameter = {
+                            who: heartbeat.who,
+                            when: new Date().yyyyMMddHHmmss()
+                        };
+
+                        console.log("fromEight/someoneBeat" + " => " + JSON.stringify(someoneBeat));
+
+                        client.publish("fromEight/someoneBeat", JSON.stringify(someoneBeat), (err) => {
+                            //console.log("publish");
+                            //console.log(JSON.stringify(err));
+                        });
+                    }
+                });
         }
 
         static tellOther(client: mqtt.Client, tellOther: EightInterface.Inbound.TellOtherParameter) {
