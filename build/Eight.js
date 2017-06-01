@@ -89,22 +89,25 @@ var Eight;
             });
         };
         Inbound.whoAreThere = function (client, whoAreThere) {
-            var who = [];
             app_1.db.find({}, function (err, docs) {
                 console.log("err" + " => " + JSON.stringify(err));
                 console.log("docs" + " => " + JSON.stringify(docs));
-            });
-            for (var item in ["a", "b", "c"]) {
-                who.push(item);
-            }
-            var thereAre = {
-                who: who,
-                when: new Date().yyyyMMddHHmmss()
-            };
-            console.log(whoAreThere.who + "/thereAre" + " => " + JSON.stringify(thereAre));
-            client.publish(whoAreThere.who + "/thereAre", JSON.stringify(thereAre), function (err) {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
+                if (err === null) {
+                    var who = [];
+                    for (var _i = 0, docs_1 = docs; _i < docs_1.length; _i++) {
+                        var item = docs_1[_i];
+                        who.push(item.who);
+                    }
+                    var thereAre = {
+                        who: who,
+                        when: new Date().yyyyMMddHHmmss()
+                    };
+                    console.log(whoAreThere.who + "/thereAre" + " => " + JSON.stringify(thereAre));
+                    client.publish(whoAreThere.who + "/thereAre", JSON.stringify(thereAre), function (err) {
+                        //console.log("publish");
+                        //console.log(JSON.stringify(err));
+                    });
+                }
             });
         };
         return Inbound;

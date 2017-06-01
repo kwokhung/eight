@@ -110,27 +110,29 @@ export namespace Eight {
         }
 
         static whoAreThere(client: mqtt.Client, whoAreThere: EightInterface.Inbound.WhoAreThereParameter) {
-            let who: string[] = [];
-
-            db.find({}, function (err, docs) {
+            db.find({}, (err, docs) => {
                 console.log("err" + " => " + JSON.stringify(err));
                 console.log("docs" + " => " + JSON.stringify(docs));
-            });
 
-            for (let item in ["a", "b", "c"]) {
-                who.push(item);
-            }
+                if (err === null) {
+                    let who: string[] = [];
 
-            let thereAre: EightInterface.Outbound.ThereAreParameter = {
-                who: who,
-                when: new Date().yyyyMMddHHmmss()
-            };
+                    for (let item of docs) {
+                        who.push(item.who);
+                    }
 
-            console.log(whoAreThere.who + "/thereAre" + " => " + JSON.stringify(thereAre));
+                    let thereAre: EightInterface.Outbound.ThereAreParameter = {
+                        who: who,
+                        when: new Date().yyyyMMddHHmmss()
+                    };
 
-            client.publish(whoAreThere.who + "/thereAre", JSON.stringify(thereAre), (err) => {
-                //console.log("publish");
-                //console.log(JSON.stringify(err));
+                    console.log(whoAreThere.who + "/thereAre" + " => " + JSON.stringify(thereAre));
+
+                    client.publish(whoAreThere.who + "/thereAre", JSON.stringify(thereAre), (err) => {
+                        //console.log("publish");
+                        //console.log(JSON.stringify(err));
+                    });
+                }
             });
         }
     }
