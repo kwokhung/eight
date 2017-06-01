@@ -127,7 +127,10 @@ var Eight;
                     var who = [];
                     for (var _i = 0, docs_1 = docs; _i < docs_1.length; _i++) {
                         var item = docs_1[_i];
-                        who.push(item.who);
+                        who.push({
+                            who: item.who,
+                            when: item.when
+                        });
                     }
                     var thereAre = {
                         who: who,

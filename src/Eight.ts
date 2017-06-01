@@ -149,10 +149,13 @@ export namespace Eight {
                 console.log("docs" + " => " + JSON.stringify(docs));
 
                 if (err === null) {
-                    let who: string[] = [];
+                    let who: any[] = [];
 
                     for (let item of docs) {
-                        who.push(item.who);
+                        who.push({
+                            who: item.who,
+                            when: item.when
+                        });
                     }
 
                     let thereAre: EightInterface.Outbound.ThereAreParameter = {
